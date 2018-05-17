@@ -39,7 +39,7 @@ setTimeout( ()=> {
 }, 15000 );
 
 
-// Закрыть фейсбук
+// Закрыть вебинар
 setTimeout( ()=> {
 	console.log('Вебинар всё...');
 	webinarChat.removeAllListeners('message');
