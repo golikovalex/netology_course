@@ -1,3 +1,6 @@
+const fs = require('fs');
+const conf = {encoding: 'utf-8'};
+
 
 function File(name, content){
 	
@@ -7,37 +10,20 @@ function File(name, content){
 }
 
 
-function show(path) {
+function getFilesFromDir(pathToDir) {
 	
-	const fs = require('fs');
-	const conf = {encoding: 'utf-8'};
-
-	return new Promise((done, fail) => {
-		fs.readdir(path, (err, files) => {
+	return new Promise((resolve, reject) => {	
+		fs.readdir(pathToDir, (err, files) => {	
 			if (err) {
-				fail(err);
-			} else {			
+				reject(err);
+			} else {				
 				let arrFiles = []; 
 				
 				for (let i = 0; i < files.length; i++) {
-					let pathTemp = path + '/' + files[i];
-					
-					//"Don't make functions with a loop" warning, как тогда лучше сделать?
-					fs.stat(pathTemp, (err, stats) => {
-						if (err) return console.error(err); //вызов fail только одни в функции ? если да, то лучше ли будет сделать отдельную функцию, возвращающую fail и вызывать ее во всех "err" ?
-
-						if (stats.isFile()){
-							fs.readFile(pathTemp, conf, (err, content) => {
-								if (err) return console.error(err);
-								arrFiles.push(new File(files[i], content));
-							});
-						}
-					
-				});
-							
-				}
-				
-				done(arrFiles);	
+					let pathTemp = pathToDir + '/' + files[i];
+					arrFiles.push(pathTemp);
+				}	
+				resolve(arrFiles);	
 			
 			}
 		});
@@ -46,4 +32,67 @@ function show(path) {
 }
 
 
-module.exports = show;
+/*
+function getInfo(pathToFile) {
+	
+	return new Promise((resolve, reject) => {
+		fs.stat(pathToFile, (err, stats) => {
+			if (err){
+				reject(err);
+			} else {
+				resolve(stats.isFile);
+			}
+		});
+	});
+	
+}
+*/
+
+function getContent(pathToFile){
+	
+	return new Promise((resolve, reject) => {
+		fs.readFile(pathToFile, conf, (err, content) => {
+			if (err){
+				reject(err);
+			} else {
+				resolve(content);
+			}					
+		});
+	});
+	
+}
+
+
+
+function getError(err){
+	console.log(err);
+}
+
+
+
+
+function readAll(path){
+
+	getFilesFromDir(path).then(arrayFiles => Promise.all(
+		arrayFiles.map(
+			singleFile => {
+				return getContent(singleFile)
+						.then(content => {
+						return new File(singleFile, content)
+						})
+						.catch(getError);
+				}
+		)
+	))
+			
+	.then (files => {
+		console.log(files);
+	})
+	.catch(getError);
+	
+}
+
+
+  
+module.exports = readAll;
+  
