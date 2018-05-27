@@ -1,50 +1,38 @@
-
 const fs = require('fs');
 const conf = {encoding: 'utf-8'};
 
-
-function PathObject() {
-	
-	var path, type, content, childs;
-	
-	function setter(path, type, content, childs){
-		this.path = path;
-		this.type = type;
-		this.content = content;
-		this.childs = childs;
-	}
-	
-}
 
 
 function pathInfo(path, callback){
 	
 	fs.stat(path, (err, stats) => {
-		if (err) callback(err, undefined);
+		if (err) {
+			callback(err, undefined);
+			return;
+		}
 		
 		let pathObject = new PathObject();
 		
 		if (stats.isFile()) {
-			//readdir(path, ...) или readdir(stats, ...) ?
 			fs.readFile(path, conf, (err, content) => {
-				if (err) callback(err, undefined);
+				if (err) {
+					callback(err, undefined);
+					return;
+				}
 				
-				pathObject.setter(path, 'file', content, undefined);
-				callback(null, pathObject);					
+				callback(null, {path: path, type: "file", content: content, childs: undefined});					
 			});
 		}
 		else 
 		if (stats.isDirectory()){
 			fs.readdir(path, (err, files) => {
-				if (err) callback(err, undefined);
+				if (err) {
+					callback(err, undefined);
+					return;
+				}
 				
-				pathObject.setter(path, 'directory', undefined, files);
-				callback(null, pathObject);
+				callback(null, {path: path, type: "directory", content: undefined, childs: files});
 			});
-		}
-		else {
-			pathObject.setter(path, undefined, undefined, undefined);
-			callback(null, pathObject);				
 		}
 	});
 	
