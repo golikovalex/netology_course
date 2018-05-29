@@ -71,7 +71,10 @@ function getTranslation(wordToTranslate){
 server.on('request', function(request, response) {
 
     response.writeHead(200);
-    response.write(form);
+	
+	if (request.method == "GET"){
+		response.write(form);
+	}
 	
 	var data = '';
 	
@@ -81,7 +84,7 @@ server.on('request', function(request, response) {
 	
 	
 	request.on('end', function() {	
-		if (request.type = "POST"){		
+		if (request.method == "POST"){		
 			getTranslation(data.substring(10));
 		}
 	});
