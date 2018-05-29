@@ -1,15 +1,12 @@
 const http = require('http');
 const https = require('https');
 var querystring = require('querystring');
-var fs = require('fs');
 
 const port = 3000;
 
 
-
 var server = http.createServer();
 var form = "<html><head></head><body><form method=\"POST\" action=\"\" accept-charset=\"utf-8\"><input type=\"text\" name=\"inputdata\"><br><br><input type=\"submit\" value=\"send\"></form></body></html>"
-
 
 
 
@@ -29,12 +26,12 @@ function getTranslation(wordToTranslate){
 	
 	
 	var post_options = {
-      host: 'translate.yandex.net',
-	  port: 443,
-      path: '/api/v1.5/tr.json/translate',
-      method: 'POST',
-	  "rejectUnauthorized": false, 
-	  headers : postheaders
+		host: 'translate.yandex.net',
+		port: 443,
+		path: '/api/v1.5/tr.json/translate',
+		method: 'POST',
+		"rejectUnauthorized": false, 
+		headers : postheaders
 	};
 
 	
