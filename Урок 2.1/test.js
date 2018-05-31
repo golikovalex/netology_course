@@ -38,8 +38,7 @@ function getTranslation(wordToTranslate){
 
 	const req = https.request(post_options, (res) => {
 		res.setEncoding('utf8');
-	  
-		var respData = '';
+
 	  
 		res.on('data', (chunk) => {
 			respData += chunk;

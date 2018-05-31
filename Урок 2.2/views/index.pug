@@ -1,0 +1,18 @@
+html
+	head
+		meta(charset='utf-8')
+		title test
+	body
+		ul
+		each val, index in usersList
+			li= index + ': ' + val.name + ' ' + val.score
+			
+		<br>
+		form(method="POST", action="/users")
+			span Name 
+			input(type="text", name="username")
+			span  Score 
+			input(type="text", name="score")
+			<br>
+			<br>
+			input(type="submit", value="Add new user")
