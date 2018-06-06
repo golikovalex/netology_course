@@ -1,0 +1,26 @@
+html
+	head
+		meta(charset='utf-8')
+		title test
+		script(src='/socket.io/socket.io.js')
+		script(src='https://code.jquery.com/jquery-1.11.1.js')
+		script.
+			$(function () {
+				var socket = io();
+				$('form').submit(function(){
+					socket.emit('chat message', $('#m').val());
+					$('#m').val('');
+					return false;
+				});
+				socket.on('chat message', function(msg){
+					$('#messages').append($('<li>').text(msg));
+				});
+			});
+	body
+		ul#messages
+			each val in messagesList
+				li= val
+		<br>
+		form(action="")
+			input(id="m" autocomplete="off")
+			button Send
