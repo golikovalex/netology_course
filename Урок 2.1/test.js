@@ -2,7 +2,7 @@ const http = require('http');
 const https = require('https');
 var querystring = require('querystring');
 
-const port = 3000;
+var port = process.env.PORT || 3000;
 
 
 var server = http.createServer();
@@ -39,6 +39,7 @@ function getTranslation(wordToTranslate){
 	const req = https.request(post_options, (res) => {
 		res.setEncoding('utf8');
 
+		var respData = '';
 	  
 		res.on('data', (chunk) => {
 			respData += chunk;
