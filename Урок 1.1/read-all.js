@@ -78,7 +78,7 @@ function readAll(path){
 			singleFile => {
 				return getContent(singleFile)
 						.then(content => {
-						return new File(singleFile, content)
+							return new File(singleFile, content)
 						})
 						.catch(getError);
 				}
