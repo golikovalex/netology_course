@@ -1,0 +1,12 @@
+<div [hidden]="showInterface">
+	<app-enterto [mainUser]="mainUser" (readyToShow)="readyToShow($event)"></app-enterto>
+</div>
+
+
+<div [hidden]="!showInterface">
+
+	<app-account-info [mainUser]="mainUser"></app-account-info>
+	<div></div>
+	<app-menu-display [mainUser]="mainUser"></app-menu-display>
+
+</div>

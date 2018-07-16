@@ -1,0 +1,16 @@
+{
+  "name": "diploma_nd12",
+  "version": "1.0.0",
+  "description": "my diploma for course nd 12",
+  "main": "index.js",
+  "dependencies": {
+    "angular": "^1.7.2",
+    "materialize-css": "^1.0.0-rc.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Golikov A.A.",
+  "license": "ISC"
+}
