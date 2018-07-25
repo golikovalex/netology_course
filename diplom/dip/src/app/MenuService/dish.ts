@@ -4,7 +4,7 @@ export class Dish {
 	image: string;
 	id: string;
 	rating: number;
-	ingredients[]: string[];
+	ingredients: string;
 	price: number;
 	
 }

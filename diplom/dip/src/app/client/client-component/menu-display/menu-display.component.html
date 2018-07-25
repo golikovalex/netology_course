@@ -1,24 +1,49 @@
-
-
 <div class="row">
+<div class="col s12">
+<ul class="collection with-header">
+	<li class="collection-header"><h4>Заказы</h4></li>
+		<li *ngFor="let order of orders" class="collection-item">
+			<span class="badge">{{order.condition}}</span>{{order.title}}
+		</li>
+</ul>	
+			
 
+
+
+
+<ul class="collapsible">
+<li>
+      <div class="collapsible-header"><i class="material-icons">file_upload</i>Добавить заказ</div>
+      <div class="collapsible-body">
 				<ul>
 				
                 <li *ngFor="let dish of dishes">
-				<div class="col s12 m6 l3">
-					<div class="card">
-						<div class="card-image">
-							<img src="{{dish.image}}">
-							<span class="card-title">{{dish.title}}</span>
-								<a class="btn-floating halfway-fab waves-effect waves-light red"><i class="material-icons">add</i></a>
-						</div>
-						<div class="card-content">
+				<div class="row">
+					<div class="col s12 m4 l2">
+						<img class="responsive-img" src="{{dish.image}}">
+					</div>
+					
+					<div class="col s12 m4 l10">
+						<h5>{{dish.title}}</h5>
+						<p><i>{{dish.ingredients}}</i></p>
+						<div>
 							Цена: {{dish.price}}
+							<p *ngIf="dish.price > mainUser.money"><span class="no_money">Пополните баланс на {{dish.price - mainUser.money}}</span></p>
 						</div>
+						<p *ngIf="dish.price <= mainUser.money">
+							<a class="waves-effect waves-light btn blue" (click)="addOrder(dish)">
+							<i class="material-icons left">add</i>Добавить</a>
+						</p>
 					</div>
-					</div>
-                </li>
 				
+				</div>
+				<div class="divider"></div>
+                </li>
             </ul>
-	
+	</div>
+</li>
+</ul>
 </div>
+</div>
+
+

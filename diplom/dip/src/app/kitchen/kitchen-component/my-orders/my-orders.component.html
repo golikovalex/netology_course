@@ -1,0 +1,22 @@
+<div class="row">
+<div class="col s6">
+<ul class="collection with-header">
+	<li class="collection-header"><h4>Заказы</h4></li>
+		<li *ngFor="let order of orders" class="collection-item">
+			<p class="card-panel blue lighten-5">{{order.title}}</p>
+			<p>для: {{order.userEmail}}</p>
+			<a class="waves-effect waves-light btn blue" (click)="sendToCook(order)"><i class="material-icons right">forward</i>Начать готовить</a>
+		</li>
+</ul>	
+</div>
+<div class="col s6">
+<ul class="collection with-header">
+	<li class="collection-header"><h4>Готовятся</h4></li>
+		<li *ngFor="let cookingOrder of cookingOrders" class="collection-item">
+			<p class="card-panel blue lighten-5">{{cookingOrder.title}}</p>
+			<p>для: {{cookingOrder.userEmail}}</p>
+			<a class="waves-effect waves-light btn" (click)="sendToDelivery(cookingOrder)"><i class="material-icons right">check</i>Готово</a>
+		</li>
+</ul>	
+</div>
+</div>

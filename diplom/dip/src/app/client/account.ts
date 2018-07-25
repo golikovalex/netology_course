@@ -3,8 +3,8 @@ export class Account {
 	constructor(
 	) { }
 
-	static private sum_to_add = 100;
-	static private currency_name = " Галактические кредиты";
+	private static sum_to_add = 100;
+	private static currency_name = " Галактические кредиты";
 	
 	static addMoneyToAccount(): number {
 		return this.sum_to_add;
