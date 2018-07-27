@@ -1,9 +1,10 @@
+declare var require: any;
 import { Component, OnInit } from '@angular/core';
 import { MenuService } from '../../../MenuService/MenuService';
 import { Observable } from 'rxjs';
 import { Order } from '../../../MenuService/order';
 
-//import { Drone } from 'netology-fake-drone-api';
+const drone = require('netology-fake-drone-api');
 
 
 
@@ -21,6 +22,7 @@ export class MyOrdersComponent implements OnInit {
   
 	orders: Order[] = [];
 	cookingOrders: Order[] = [];
+	//drone: Drone;
 
 	ngOnInit() {
 		this.menuService.getOrderingOrders().subscribe(data => {
@@ -58,6 +60,21 @@ export class MyOrdersComponent implements OnInit {
 				if (index > -1) {
 					this.cookingOrders.splice(index, 1);
 				}
+				
+				drone
+					.deliver()
+					.then(() => {
+						console.log('Доставлено');
+						order.condition = "Доставлено";
+						this.menuService.changeOrderCondition(order).subscribe( response=> {});
+					})
+					.catch(() => {
+						console.log('Возникли сложности');
+						order.condition = "Возникли сложности";
+						this.menuService.changeOrderCondition(order).subscribe( response=> {});
+					});
+
+				
 			}, err => {console.log(err);}
 		);	  
 	}

@@ -37,9 +37,9 @@
     "mongodb-stitch-browser-sdk": "^4.0.0",
     "mongojs": "^2.6.0",
     "mongoose": "^5.2.4",
+    "netology-fake-drone-api": "^1.0.1",
     "rxjs": "^6.0.0",
-    "zone.js": "^0.8.26",
-    "netology-fake-drone-api": "^1.0.1"
+    "zone.js": "^0.8.26"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.6.8",
