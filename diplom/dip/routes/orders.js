@@ -16,7 +16,6 @@ router.get('/', function(req, res, next){
 
 
 router.get('/email/:email', function(req, res, next){
-	console.log("2." + req.params.email);
     db.orders.find({userEmail: req.params.email}, function(err, tasks){
         if(err){
             res.send(err);

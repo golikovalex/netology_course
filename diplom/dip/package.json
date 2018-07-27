@@ -1,6 +1,6 @@
 {
-  "name": "dip",
-  "version": "0.0.0",
+  "name": "diplom_nd12",
+  "version": "0.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
@@ -8,6 +8,10 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://bitbucket.org/netology-university/drone-cafe.git"
   },
   "private": true,
   "dependencies": {
@@ -34,7 +38,8 @@
     "mongojs": "^2.6.0",
     "mongoose": "^5.2.4",
     "rxjs": "^6.0.0",
-    "zone.js": "^0.8.26"
+    "zone.js": "^0.8.26",
+    "netology-fake-drone-api": "^1.0.1"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.6.8",
@@ -57,5 +62,9 @@
     "tslint": "~5.9.1",
     "typescript": "~2.7.2",
     "webpack": "^4.16.0"
-  }
+  },
+  "description": "This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 6.0.8.",
+  "homepage": "https://bitbucket.org/netology-university/drone-cafe#readme",
+  "author": "",
+  "license": "MIT"
 }

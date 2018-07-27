@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { User }  from '../user';
+import { MenuDisplayComponent } from './menu-display/menu-display.component';
 
 
 @Component({
@@ -10,16 +11,19 @@ import { User }  from '../user';
 
 
 export class ClientComponentComponent implements OnInit {
+	
+	@ViewChild(MenuDisplayComponent) menuDisplayComponent: MenuDisplayComponent;
 
 	constructor() { }
 	ngOnInit() { }
 	
-	mainUser = new User(1, "", "", 20);
+	mainUser = new User("", "", 0);
 	showInterface = false;
 	
 	
 	
 	readyToShow(result: boolean){
+		this.menuDisplayComponent.initOrders(this.mainUser.email);
 		this.showInterface = result;	
 	}
 		

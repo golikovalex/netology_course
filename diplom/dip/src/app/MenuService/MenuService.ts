@@ -23,7 +23,6 @@ export class MenuService{
 	}
 	
 	getOrdersDueEmail(email): Observable<any>{
-		console.log("1." + email);
 		return this.http.get('/orders/email/' + email);
 	}
 	

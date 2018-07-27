@@ -1,10 +1,12 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Account }  from '../../account';
 import { User }  from '../../user';
+import { UserService } from '../../UserService';
 
 @Component({
   selector: 'app-account-info',
   templateUrl: './account-info.component.html',
+  providers: [UserService],
   styleUrls: ['./account-info.component.css']
 })
 
@@ -14,7 +16,7 @@ export class AccountInfoComponent implements OnInit {
 	
 	@Input() mainUser: User;
 
-	constructor() { }
+	constructor(private userService: UserService) { }
 
 	ngOnInit() {
 	}
@@ -28,6 +30,10 @@ export class AccountInfoComponent implements OnInit {
 		
 		alert("Вы пополнили свой счет на: " + this._money + " " + this._currency_name);
 		this.mainUser.money += this._money;
+		
+		this.userService.updateUserInfo(this.mainUser).subscribe( response=> {
+			}
+		);
 	}
 
 }
