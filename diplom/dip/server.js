@@ -8,7 +8,7 @@ const cors = require('cors');
 const db = require('./config/db');
 
 const orders = require('./routes/orders');
-//const kitchen = require('./routes/kitchen');
+const users = require('./routes/users');
 
 var app = express();
 
@@ -19,7 +19,7 @@ app.use(express.static(path.join(__dirname, 'dist/dip')));
 
 
 app.use('/orders', orders);
-//app.use('/kitchen', kitchen);
+app.use('/users', users);
 
 
 
