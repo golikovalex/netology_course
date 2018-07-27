@@ -57,7 +57,6 @@ var MenuService = /** @class */ (function () {
         return this.http.get('/orders');
     };
     MenuService.prototype.getOrdersDueEmail = function (email) {
-        console.log("1." + email);
         return this.http.get('/orders/email/' + email);
     };
     MenuService.prototype.getCookingOrders = function () {
@@ -244,6 +243,63 @@ var AppModule = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/client/UserService.ts":
+/*!***************************************!*\
+  !*** ./src/app/client/UserService.ts ***!
+  \***************************************/
+/*! exports provided: UserService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UserService", function() { return UserService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var _angular_common_http__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @angular/common/http */ "./node_modules/@angular/common/fesm5/http.js");
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+var UserService = /** @class */ (function () {
+    function UserService(http) {
+        this.http = http;
+    }
+    UserService.prototype.checkUserInDB = function (email) {
+        return this.http.get('/users/' + email);
+    };
+    UserService.prototype.addUser = function (newUser) {
+        var httpOptions = {
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]({
+                'Content-Type': 'application/json'
+            })
+        };
+        return this.http.post('/users', JSON.stringify(newUser), httpOptions);
+    };
+    UserService.prototype.updateUserInfo = function (user) {
+        var httpOptions = {
+            headers: new _angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpHeaders"]({
+                'Content-Type': 'application/json'
+            })
+        };
+        return this.http.put('/users/' + user.email, JSON.stringify(user), httpOptions);
+    };
+    UserService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])(),
+        __metadata("design:paramtypes", [_angular_common_http__WEBPACK_IMPORTED_MODULE_1__["HttpClient"]])
+    ], UserService);
+    return UserService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/client/account.ts":
 /*!***********************************!*\
   !*** ./src/app/client/account.ts ***!
@@ -290,7 +346,7 @@ module.exports = "a:hover {\r\n\tcursor:pointer;\r\n}"
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"row\">\n    <div class=\"col s12 m5\">\n\t\t<div class=\"card teal darken-3\">\n\t\t<div class=\"card-content white-text\">\n\t\t\t<span class=\"card-title\">Ваши данные</span>\n\t\t\t<p>{{'main user: ' + mainUser.name}}</p>\n\t\t\t<p>{{'баланс: ' + mainUser.money}}</p>\n\t\t</div>\n\t\t<div class=\"card-action\">\n\t\t\t<a (click)=\"addMoneyToAccount()\">пополнить баланс</a>\n\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n  \n  \n\n"
+module.exports = "<div class=\"row\">\n    <div class=\"col s12 m5\">\n\t\t<div class=\"card teal darken-3\">\n\t\t<div class=\"card-content white-text\">\n\t\t\t<span class=\"card-title\">Ваши данные</span>\n\t\t\t<p>{{'Имя: ' + mainUser.name}}</p>\n\t\t\t<p>{{'email: ' + mainUser.email}}</p>\n\t\t\t<p>{{'Баланс: ' + mainUser.money}}</p>\n\t\t</div>\n\t\t<div class=\"card-action\">\n\t\t\t<a (click)=\"addMoneyToAccount()\">пополнить баланс</a>\n\t\t</div>\n\t\t</div>\n\t</div>\n</div>\n  \n  \n\n"
 
 /***/ }),
 
@@ -307,6 +363,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _account__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../account */ "./src/app/client/account.ts");
 /* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../user */ "./src/app/client/user.ts");
+/* harmony import */ var _UserService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../UserService */ "./src/app/client/UserService.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -319,8 +376,10 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var AccountInfoComponent = /** @class */ (function () {
-    function AccountInfoComponent() {
+    function AccountInfoComponent(userService) {
+        this.userService = userService;
     }
     AccountInfoComponent.prototype.ngOnInit = function () {
     };
@@ -329,6 +388,8 @@ var AccountInfoComponent = /** @class */ (function () {
         this._currency_name = _account__WEBPACK_IMPORTED_MODULE_1__["Account"].getCurrencyName();
         alert("Вы пополнили свой счет на: " + this._money + " " + this._currency_name);
         this.mainUser.money += this._money;
+        this.userService.updateUserInfo(this.mainUser).subscribe(function (response) {
+        });
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
@@ -338,9 +399,10 @@ var AccountInfoComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-account-info',
             template: __webpack_require__(/*! ./account-info.component.html */ "./src/app/client/client-component/account-info/account-info.component.html"),
+            providers: [_UserService__WEBPACK_IMPORTED_MODULE_3__["UserService"]],
             styles: [__webpack_require__(/*! ./account-info.component.css */ "./src/app/client/client-component/account-info/account-info.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_UserService__WEBPACK_IMPORTED_MODULE_3__["UserService"]])
     ], AccountInfoComponent);
     return AccountInfoComponent;
 }());
@@ -383,6 +445,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ClientComponentComponent", function() { return ClientComponentComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../user */ "./src/app/client/user.ts");
+/* harmony import */ var _menu_display_menu_display_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./menu-display/menu-display.component */ "./src/app/client/client-component/menu-display/menu-display.component.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -394,15 +457,21 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
 var ClientComponentComponent = /** @class */ (function () {
     function ClientComponentComponent() {
-        this.mainUser = new _user__WEBPACK_IMPORTED_MODULE_1__["User"](1, "", "", 20);
+        this.mainUser = new _user__WEBPACK_IMPORTED_MODULE_1__["User"]("", "", 0);
         this.showInterface = false;
     }
     ClientComponentComponent.prototype.ngOnInit = function () { };
     ClientComponentComponent.prototype.readyToShow = function (result) {
+        this.menuDisplayComponent.initOrders(this.mainUser.email);
         this.showInterface = result;
     };
+    __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ViewChild"])(_menu_display_menu_display_component__WEBPACK_IMPORTED_MODULE_2__["MenuDisplayComponent"]),
+        __metadata("design:type", _menu_display_menu_display_component__WEBPACK_IMPORTED_MODULE_2__["MenuDisplayComponent"])
+    ], ClientComponentComponent.prototype, "menuDisplayComponent", void 0);
     ClientComponentComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-client-component',
@@ -452,6 +521,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "EntertoComponent", function() { return EntertoComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../user */ "./src/app/client/user.ts");
+/* harmony import */ var _UserService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../UserService */ "./src/app/client/UserService.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -463,25 +533,37 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
 var EntertoComponent = /** @class */ (function () {
-    function EntertoComponent() {
+    function EntertoComponent(userService) {
+        this.userService = userService;
         this.readyToShow = new _angular_core__WEBPACK_IMPORTED_MODULE_0__["EventEmitter"]();
-        this.users = new Array();
         this.submitted = false;
     }
     EntertoComponent.prototype.ngOnInit = function () { };
     EntertoComponent.prototype.onSubmit = function () {
+        var _this = this;
+        var tempUser = new _user__WEBPACK_IMPORTED_MODULE_1__["User"]("", "", 0);
+        //check user in DB
+        this.userService.checkUserInDB(this.mainUser.email).subscribe(function (data) {
+            tempUser = data;
+            //if there is no user in DB - add user
+            if (data === null) {
+                _this.mainUser.money = 100;
+                _this.userService.addUser(_this.mainUser).subscribe(function (data) {
+                    console.log("new user added");
+                });
+            }
+            else {
+                //if user in db  - get data
+                _this.mainUser.money = tempUser.money;
+            }
+        }, function (err) { console.log("error: " + err); });
         this.submitted = true;
-        this.users.push(this.mainUser);
         this.readyToShow.emit(true);
     };
     EntertoComponent.prototype.enterToClientInterface = function () {
     };
-    Object.defineProperty(EntertoComponent.prototype, "diagnostic", {
-        get: function () { return JSON.stringify(this.users); },
-        enumerable: true,
-        configurable: true
-    });
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
         __metadata("design:type", _user__WEBPACK_IMPORTED_MODULE_1__["User"])
@@ -494,9 +576,10 @@ var EntertoComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-enterto',
             template: __webpack_require__(/*! ./enterto.component.html */ "./src/app/client/client-component/enterto/enterto.component.html"),
+            providers: [_UserService__WEBPACK_IMPORTED_MODULE_2__["UserService"]],
             styles: [__webpack_require__(/*! ./enterto.component.css */ "./src/app/client/client-component/enterto/enterto.component.css")]
         }),
-        __metadata("design:paramtypes", [])
+        __metadata("design:paramtypes", [_UserService__WEBPACK_IMPORTED_MODULE_2__["UserService"]])
     ], EntertoComponent);
     return EntertoComponent;
 }());
@@ -539,8 +622,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MenuDisplayComponent", function() { return MenuDisplayComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _MenuService_MenuService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../MenuService/MenuService */ "./src/app/MenuService/MenuService.ts");
-/* harmony import */ var _MenuService_order__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../MenuService/order */ "./src/app/MenuService/order.ts");
-/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../user */ "./src/app/client/user.ts");
+/* harmony import */ var _UserService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../UserService */ "./src/app/client/UserService.ts");
+/* harmony import */ var _MenuService_order__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../MenuService/order */ "./src/app/MenuService/order.ts");
+/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../user */ "./src/app/client/user.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -554,54 +638,56 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var MenuDisplayComponent = /** @class */ (function () {
-    function MenuDisplayComponent(menuService) {
+    function MenuDisplayComponent(menuService, userService) {
         this.menuService = menuService;
+        this.userService = userService;
         this.dishes = [];
         this.orders = [];
     }
     MenuDisplayComponent.prototype.ngOnInit = function () {
         var _this = this;
+        //get Menu
         this.menuService.getDishes().subscribe(function (data) {
             _this.dishes = data;
         }, function (err) { console.log(err); });
-        this.menuService.getOrders().subscribe(function (data) {
+    };
+    //get orders due to user email
+    MenuDisplayComponent.prototype.initOrders = function (email) {
+        var _this = this;
+        this.menuService.getOrdersDueEmail(email).subscribe(function (data) {
             _this.orders = data;
         }, function (err) { console.log(err); });
     };
-    MenuDisplayComponent.prototype.initOrders = function () {
-        var _this = this;
-        if (!this.mainUser.email) {
-            this.menuService.getOrders().subscribe(function (data) {
-                _this.orders = data;
-            }, function (err) { console.log(err); });
-        }
-    };
+    //add new order
     MenuDisplayComponent.prototype.addOrder = function (dish) {
         var _this = this;
-        var newOrder = new _MenuService_order__WEBPACK_IMPORTED_MODULE_2__["Order"]();
+        var newOrder = new _MenuService_order__WEBPACK_IMPORTED_MODULE_3__["Order"]();
         newOrder.title = dish.title;
         newOrder.condition = "Заказано";
         newOrder.userEmail = this.mainUser.email;
         newOrder.date = Date.now();
         this.menuService.addOrder(newOrder).subscribe(function (response) {
-            console.log(response);
             _this.mainUser.money -= dish.price;
             _this.orders.push(newOrder);
+            //update user data in DB
+            _this.userService.updateUserInfo(_this.mainUser).subscribe(function (response) {
+            });
         });
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", _user__WEBPACK_IMPORTED_MODULE_3__["User"])
+        __metadata("design:type", _user__WEBPACK_IMPORTED_MODULE_4__["User"])
     ], MenuDisplayComponent.prototype, "mainUser", void 0);
     MenuDisplayComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-menu-display',
             template: __webpack_require__(/*! ./menu-display.component.html */ "./src/app/client/client-component/menu-display/menu-display.component.html"),
-            providers: [_MenuService_MenuService__WEBPACK_IMPORTED_MODULE_1__["MenuService"]],
+            providers: [_MenuService_MenuService__WEBPACK_IMPORTED_MODULE_1__["MenuService"], _UserService__WEBPACK_IMPORTED_MODULE_2__["UserService"]],
             styles: [__webpack_require__(/*! ./menu-display.component.css */ "./src/app/client/client-component/menu-display/menu-display.component.css")]
         }),
-        __metadata("design:paramtypes", [_MenuService_MenuService__WEBPACK_IMPORTED_MODULE_1__["MenuService"]])
+        __metadata("design:paramtypes", [_MenuService_MenuService__WEBPACK_IMPORTED_MODULE_1__["MenuService"], _UserService__WEBPACK_IMPORTED_MODULE_2__["UserService"]])
     ], MenuDisplayComponent);
     return MenuDisplayComponent;
 }());
@@ -672,14 +758,12 @@ var ClientModule = /** @class */ (function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "User", function() { return User; });
 var User = /** @class */ (function () {
-    function User(id, name, email, money) {
-        this.id = id;
+    function User(name, email, money) {
         this.name = name;
         this.email = email;
         this.money = money;
     }
     User.prototype.clone = function (oldUser) {
-        this.id = oldUser.id;
         this.name = oldUser.name;
         this.email = oldUser.email;
         this.money = oldUser.money;
@@ -862,6 +946,7 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+//import { Drone } from 'netology-fake-drone-api';
 var MyOrdersComponent = /** @class */ (function () {
     function MyOrdersComponent(menuService) {
         this.menuService = menuService;
