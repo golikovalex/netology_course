@@ -22,14 +22,14 @@ export class MyOrdersComponent implements OnInit {
   
 	orders: Order[] = [];
 	cookingOrders: Order[] = [];
-	//drone: Drone;
 
 	ngOnInit() {
+		//get orders with condition "Заказано"
 		this.menuService.getOrderingOrders().subscribe(data => {
 				this.orders = data;
 			}, err => {console.log(err);}
 		);
-		
+		//get orders with condition "Готовится"
 		this.menuService.getCookingOrders().subscribe(data => {
 				this.cookingOrders = data;
 			}, err => {console.log(err);}
@@ -37,7 +37,7 @@ export class MyOrdersComponent implements OnInit {
 	}
 
   
-	
+	//change condition to "Готовится" and update order in DB
 	public sendToCook(order: Order){
 		order.condition = "Готовится";
 		
@@ -51,7 +51,7 @@ export class MyOrdersComponent implements OnInit {
 		);	  
 	}
 	
-	
+	//change condition to "Доставляется" and update order in DB
 	public sendToDelivery(order: Order){
 		order.condition = "Доставляется";
 		
@@ -60,7 +60,7 @@ export class MyOrdersComponent implements OnInit {
 				if (index > -1) {
 					this.cookingOrders.splice(index, 1);
 				}
-				
+				//using drone_api
 				drone
 					.deliver()
 					.then(() => {

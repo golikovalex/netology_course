@@ -62005,6 +62005,47 @@ function MaterializeModule_tsickle_Closure_declarations() {
 
 /***/ }),
 
+/***/ "./node_modules/netology-fake-drone-api/index.js":
+/*!*******************************************************!*\
+  !*** ./node_modules/netology-fake-drone-api/index.js ***!
+  \*******************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+const random = __webpack_require__(/*! ./src/random */ "./node_modules/netology-fake-drone-api/src/random.js");
+
+exports.deliver = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const luck = random(0, 100);
+      if (luck < 10) {
+        return reject();
+      }
+      return resolve();
+    }, random(1500, 5000));
+  });
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/netology-fake-drone-api/src/random.js":
+/*!************************************************************!*\
+  !*** ./node_modules/netology-fake-drone-api/src/random.js ***!
+  \************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = (min, max) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  max = Math.floor(Math.random() * (max - min + 1));
+  return max + min;
+};
+
+
+/***/ }),
+
 /***/ "./node_modules/rxjs/_esm5/index.js":
 /*!******************************************!*\
   !*** ./node_modules/rxjs/_esm5/index.js ***!

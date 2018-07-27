@@ -946,13 +946,14 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
-//import { Drone } from 'netology-fake-drone-api';
+var drone = __webpack_require__(/*! netology-fake-drone-api */ "./node_modules/netology-fake-drone-api/index.js");
 var MyOrdersComponent = /** @class */ (function () {
     function MyOrdersComponent(menuService) {
         this.menuService = menuService;
         this.orders = [];
         this.cookingOrders = [];
     }
+    //drone: Drone;
     MyOrdersComponent.prototype.ngOnInit = function () {
         var _this = this;
         this.menuService.getOrderingOrders().subscribe(function (data) {
@@ -981,6 +982,18 @@ var MyOrdersComponent = /** @class */ (function () {
             if (index > -1) {
                 _this.cookingOrders.splice(index, 1);
             }
+            drone
+                .deliver()
+                .then(function () {
+                console.log('Доставлено');
+                order.condition = "Доставлено";
+                _this.menuService.changeOrderCondition(order).subscribe(function (response) { });
+            })
+                .catch(function () {
+                console.log('Возникли сложности');
+                order.condition = "Возникли сложности";
+                _this.menuService.changeOrderCondition(order).subscribe(function (response) { });
+            });
         }, function (err) { console.log(err); });
     };
     MyOrdersComponent = __decorate([
