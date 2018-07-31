@@ -1,5 +1,6 @@
 import { Component, OnInit, Input} from '@angular/core';
 import { MenuService } from '../../../MenuService/MenuService';
+import { SocketService } from '../../../SocketService/SocketService';
 import { UserService } from '../../UserService';
 import { Observable } from 'rxjs';
 import { Dish } from '../../../MenuService/dish';
@@ -21,8 +22,11 @@ export class MenuDisplayComponent implements OnInit {
 	
 	dishes: Dish[] = [];
 	orders: Order[] = [];
+	
+	connection;
 
-	constructor(private menuService: MenuService, private userService: UserService) { }
+	
+	constructor(private menuService: MenuService, private userService: UserService, private socketService: SocketService) {}
 	
 	ngOnInit() {
 		//get Menu
@@ -30,6 +34,22 @@ export class MenuDisplayComponent implements OnInit {
 				this.dishes = data;
 			}, err => {console.log(err);}
 		);
+		//listening kitchen and update order conditions "real time"
+		this.connection = this.socketService.listenMassages("refresh").subscribe( msg =>{
+			let newOrder = new Order();
+			newOrder = JSON.parse(msg.toString());
+			
+			for (let i = this.orders.length - 1; i >= 0 ; i--){
+				if ((this.orders[i].title == newOrder.title) && (this.orders[i].userEmail == newOrder.userEmail)){
+					this.orders[i].condition = newOrder.condition;
+					//return money to user account in case of problems with delivery
+					if (newOrder.condition == "Возникли сложности"){
+							this.mainUser.money += newOrder.price;
+					}					
+					return;
+				}
+			}
+		})
 	}
 	
 	//get orders due to user email
@@ -47,6 +67,7 @@ export class MenuDisplayComponent implements OnInit {
 		newOrder.condition = "Заказано";
 		newOrder.userEmail = this.mainUser.email;
 		newOrder.date = Date.now();
+		newOrder.price = dish.price;
 		
 		this.menuService.addOrder(newOrder).subscribe(
 			response=> {
@@ -54,6 +75,8 @@ export class MenuDisplayComponent implements OnInit {
 				this.orders.push(newOrder);
 				//update user data in DB
 				this.userService.updateUserInfo(this.mainUser).subscribe( response=> {
+						//emit message for kitchen
+						this.socketService.sendMassage("added", newOrder);
 					}
 				);	
 			},

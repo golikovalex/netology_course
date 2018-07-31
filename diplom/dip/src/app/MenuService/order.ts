@@ -4,6 +4,7 @@ export class Order {
 	condition: string;
 	userEmail: string;
 	date: number;
+	price: number;
 	
 	
 	updateToCooking = function(){

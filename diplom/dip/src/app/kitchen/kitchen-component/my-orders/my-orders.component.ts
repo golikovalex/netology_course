@@ -1,27 +1,30 @@
 declare var require: any;
 import { Component, OnInit } from '@angular/core';
 import { MenuService } from '../../../MenuService/MenuService';
+import { SocketService } from '../../../SocketService/SocketService';
 import { Observable } from 'rxjs';
 import { Order } from '../../../MenuService/order';
 
 const drone = require('netology-fake-drone-api');
 
 
-
 @Component({
   selector: 'app-my-orders',
   templateUrl: './my-orders.component.html',
-  providers: [MenuService],
+  providers: [MenuService, SocketService],
   styleUrls: ['./my-orders.component.css']
 })
 
 
 export class MyOrdersComponent implements OnInit {
 
-	constructor(private menuService: MenuService) { }
+
+	constructor(private menuService: MenuService, private socketService: SocketService) { }
   
 	orders: Order[] = [];
 	cookingOrders: Order[] = [];
+	connection;
+	
 
 	ngOnInit() {
 		//get orders with condition "Заказано"
@@ -34,6 +37,16 @@ export class MyOrdersComponent implements OnInit {
 				this.cookingOrders = data;
 			}, err => {console.log(err);}
 		);
+		
+		//listening users and update orders list in "real time"
+		this.connection = this.socketService.listenMassages("add").subscribe( msg =>{
+			this.menuService.getOrderingOrders().subscribe(data => {
+					this.orders = data;
+				}, err => {console.log(err);}
+			);
+		})
+		
+		
 	}
 
   
@@ -47,6 +60,9 @@ export class MyOrdersComponent implements OnInit {
 				if (index > -1) {
 					this.orders.splice(index, 1);
 				}
+				//emit message to user
+				this.socketService.sendMassage("refreshed", order);
+				
 			}, err => {console.log(err);}
 		);	  
 	}
@@ -54,6 +70,7 @@ export class MyOrdersComponent implements OnInit {
 	//change condition to "Доставляется" and update order in DB
 	public sendToDelivery(order: Order){
 		order.condition = "Доставляется";
+		this.socketService.sendMassage("refreshed", order);
 		
 		this.menuService.changeOrderCondition(order).subscribe(data => {
 				let index = this.cookingOrders.indexOf(order, 0);
@@ -66,12 +83,16 @@ export class MyOrdersComponent implements OnInit {
 					.then(() => {
 						console.log('Доставлено');
 						order.condition = "Доставлено";
-						this.menuService.changeOrderCondition(order).subscribe( response=> {});
+						this.menuService.changeOrderCondition(order).subscribe( response=> {
+							this.socketService.sendMassage("refreshed", order);
+						});
 					})
 					.catch(() => {
 						console.log('Возникли сложности');
 						order.condition = "Возникли сложности";
-						this.menuService.changeOrderCondition(order).subscribe( response=> {});
+						this.menuService.changeOrderCondition(order).subscribe( response=> {
+							this.socketService.sendMassage("refreshed", order);
+						});
 					});
 
 				
@@ -79,6 +100,7 @@ export class MyOrdersComponent implements OnInit {
 		);	  
 	}
   
+
   
 
 }
