@@ -115,6 +115,64 @@ var Order = /** @class */ (function () {
 
 /***/ }),
 
+/***/ "./src/app/SocketService/SocketService.ts":
+/*!************************************************!*\
+  !*** ./src/app/SocketService/SocketService.ts ***!
+  \************************************************/
+/*! exports provided: SocketService */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "SocketService", function() { return SocketService; });
+/* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
+/* harmony import */ var rxjs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! rxjs */ "./node_modules/rxjs/_esm5/index.js");
+/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! socket.io-client */ "./node_modules/socket.io-client/lib/index.js");
+/* harmony import */ var socket_io_client__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(socket_io_client__WEBPACK_IMPORTED_MODULE_2__);
+var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (undefined && undefined.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+
+
+var SocketService = /** @class */ (function () {
+    function SocketService() {
+        this.socket = socket_io_client__WEBPACK_IMPORTED_MODULE_2__();
+    }
+    SocketService.prototype.sendMassage = function (channel, msg) {
+        this.socket.emit(channel, msg);
+    };
+    SocketService.prototype.listenMassages = function (channel) {
+        var _this = this;
+        var observable = new rxjs__WEBPACK_IMPORTED_MODULE_1__["Observable"](function (observer) {
+            _this.socket.on(channel, function (data) {
+                observer.next(data);
+            });
+            return function () {
+                _this.socket.disconnect();
+            };
+        });
+        return observable;
+    };
+    SocketService = __decorate([
+        Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Injectable"])({
+            providedIn: 'root'
+        }),
+        __metadata("design:paramtypes", [])
+    ], SocketService);
+    return SocketService;
+}());
+
+
+
+/***/ }),
+
 /***/ "./src/app/app.component.css":
 /*!***********************************!*\
   !*** ./src/app/app.component.css ***!
@@ -149,12 +207,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "AppComponent", function() { return AppComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _MenuService_MenuService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./MenuService/MenuService */ "./src/app/MenuService/MenuService.ts");
+/* harmony import */ var _SocketService_SocketService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./SocketService/SocketService */ "./src/app/SocketService/SocketService.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 var AppComponent = /** @class */ (function () {
@@ -165,7 +225,7 @@ var AppComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-root',
             template: __webpack_require__(/*! ./app.component.html */ "./src/app/app.component.html"),
-            providers: [_MenuService_MenuService__WEBPACK_IMPORTED_MODULE_1__["MenuService"]],
+            providers: [_MenuService_MenuService__WEBPACK_IMPORTED_MODULE_1__["MenuService"], _SocketService_SocketService__WEBPACK_IMPORTED_MODULE_2__["SocketService"]],
             styles: [__webpack_require__(/*! ./app.component.css */ "./src/app/app.component.css")]
         })
     ], AppComponent);
@@ -622,9 +682,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MenuDisplayComponent", function() { return MenuDisplayComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _MenuService_MenuService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../MenuService/MenuService */ "./src/app/MenuService/MenuService.ts");
-/* harmony import */ var _UserService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../UserService */ "./src/app/client/UserService.ts");
-/* harmony import */ var _MenuService_order__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../MenuService/order */ "./src/app/MenuService/order.ts");
-/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../user */ "./src/app/client/user.ts");
+/* harmony import */ var _SocketService_SocketService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../SocketService/SocketService */ "./src/app/SocketService/SocketService.ts");
+/* harmony import */ var _UserService__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../UserService */ "./src/app/client/UserService.ts");
+/* harmony import */ var _MenuService_order__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../../MenuService/order */ "./src/app/MenuService/order.ts");
+/* harmony import */ var _user__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../user */ "./src/app/client/user.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -639,10 +700,12 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 
 
 
+
 var MenuDisplayComponent = /** @class */ (function () {
-    function MenuDisplayComponent(menuService, userService) {
+    function MenuDisplayComponent(menuService, userService, socketService) {
         this.menuService = menuService;
         this.userService = userService;
+        this.socketService = socketService;
         this.dishes = [];
         this.orders = [];
     }
@@ -652,6 +715,21 @@ var MenuDisplayComponent = /** @class */ (function () {
         this.menuService.getDishes().subscribe(function (data) {
             _this.dishes = data;
         }, function (err) { console.log(err); });
+        //listening kitchen and update order conditions "real time"
+        this.connection = this.socketService.listenMassages("refresh").subscribe(function (msg) {
+            var newOrder = new _MenuService_order__WEBPACK_IMPORTED_MODULE_4__["Order"]();
+            newOrder = JSON.parse(msg.toString());
+            for (var i = _this.orders.length - 1; i >= 0; i--) {
+                if ((_this.orders[i].title == newOrder.title) && (_this.orders[i].userEmail == newOrder.userEmail)) {
+                    _this.orders[i].condition = newOrder.condition;
+                    //return money to user account in case of problems with delivery
+                    if (newOrder.condition == "Возникли сложности") {
+                        _this.mainUser.money += newOrder.price;
+                    }
+                    return;
+                }
+            }
+        });
     };
     //get orders due to user email
     MenuDisplayComponent.prototype.initOrders = function (email) {
@@ -663,31 +741,34 @@ var MenuDisplayComponent = /** @class */ (function () {
     //add new order
     MenuDisplayComponent.prototype.addOrder = function (dish) {
         var _this = this;
-        var newOrder = new _MenuService_order__WEBPACK_IMPORTED_MODULE_3__["Order"]();
+        var newOrder = new _MenuService_order__WEBPACK_IMPORTED_MODULE_4__["Order"]();
         newOrder.title = dish.title;
         newOrder.condition = "Заказано";
         newOrder.userEmail = this.mainUser.email;
         newOrder.date = Date.now();
+        newOrder.price = dish.price;
         this.menuService.addOrder(newOrder).subscribe(function (response) {
             _this.mainUser.money -= dish.price;
             _this.orders.push(newOrder);
             //update user data in DB
             _this.userService.updateUserInfo(_this.mainUser).subscribe(function (response) {
+                //emit message for kitchen
+                _this.socketService.sendMassage("added", newOrder);
             });
         });
     };
     __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Input"])(),
-        __metadata("design:type", _user__WEBPACK_IMPORTED_MODULE_4__["User"])
+        __metadata("design:type", _user__WEBPACK_IMPORTED_MODULE_5__["User"])
     ], MenuDisplayComponent.prototype, "mainUser", void 0);
     MenuDisplayComponent = __decorate([
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-menu-display',
             template: __webpack_require__(/*! ./menu-display.component.html */ "./src/app/client/client-component/menu-display/menu-display.component.html"),
-            providers: [_MenuService_MenuService__WEBPACK_IMPORTED_MODULE_1__["MenuService"], _UserService__WEBPACK_IMPORTED_MODULE_2__["UserService"]],
+            providers: [_MenuService_MenuService__WEBPACK_IMPORTED_MODULE_1__["MenuService"], _UserService__WEBPACK_IMPORTED_MODULE_3__["UserService"]],
             styles: [__webpack_require__(/*! ./menu-display.component.css */ "./src/app/client/client-component/menu-display/menu-display.component.css")]
         }),
-        __metadata("design:paramtypes", [_MenuService_MenuService__WEBPACK_IMPORTED_MODULE_1__["MenuService"], _UserService__WEBPACK_IMPORTED_MODULE_2__["UserService"]])
+        __metadata("design:paramtypes", [_MenuService_MenuService__WEBPACK_IMPORTED_MODULE_1__["MenuService"], _UserService__WEBPACK_IMPORTED_MODULE_3__["UserService"], _SocketService_SocketService__WEBPACK_IMPORTED_MODULE_2__["SocketService"]])
     ], MenuDisplayComponent);
     return MenuDisplayComponent;
 }());
@@ -935,6 +1016,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MyOrdersComponent", function() { return MyOrdersComponent; });
 /* harmony import */ var _angular_core__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @angular/core */ "./node_modules/@angular/core/fesm5/core.js");
 /* harmony import */ var _MenuService_MenuService__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../MenuService/MenuService */ "./src/app/MenuService/MenuService.ts");
+/* harmony import */ var _SocketService_SocketService__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../SocketService/SocketService */ "./src/app/SocketService/SocketService.ts");
 var __decorate = (undefined && undefined.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -946,23 +1028,33 @@ var __metadata = (undefined && undefined.__metadata) || function (k, v) {
 };
 
 
+
 var drone = __webpack_require__(/*! netology-fake-drone-api */ "./node_modules/netology-fake-drone-api/index.js");
 var MyOrdersComponent = /** @class */ (function () {
-    function MyOrdersComponent(menuService) {
+    function MyOrdersComponent(menuService, socketService) {
         this.menuService = menuService;
+        this.socketService = socketService;
         this.orders = [];
         this.cookingOrders = [];
     }
-    //drone: Drone;
     MyOrdersComponent.prototype.ngOnInit = function () {
         var _this = this;
+        //get orders with condition "Заказано"
         this.menuService.getOrderingOrders().subscribe(function (data) {
             _this.orders = data;
         }, function (err) { console.log(err); });
+        //get orders with condition "Готовится"
         this.menuService.getCookingOrders().subscribe(function (data) {
             _this.cookingOrders = data;
         }, function (err) { console.log(err); });
+        //listening users and update orders list in "real time"
+        this.connection = this.socketService.listenMassages("add").subscribe(function (msg) {
+            _this.menuService.getOrderingOrders().subscribe(function (data) {
+                _this.orders = data;
+            }, function (err) { console.log(err); });
+        });
     };
+    //change condition to "Готовится" and update order in DB
     MyOrdersComponent.prototype.sendToCook = function (order) {
         var _this = this;
         order.condition = "Готовится";
@@ -972,27 +1064,36 @@ var MyOrdersComponent = /** @class */ (function () {
             if (index > -1) {
                 _this.orders.splice(index, 1);
             }
+            //emit message to user
+            _this.socketService.sendMassage("refreshed", order);
         }, function (err) { console.log(err); });
     };
+    //change condition to "Доставляется" and update order in DB
     MyOrdersComponent.prototype.sendToDelivery = function (order) {
         var _this = this;
         order.condition = "Доставляется";
+        this.socketService.sendMassage("refreshed", order);
         this.menuService.changeOrderCondition(order).subscribe(function (data) {
             var index = _this.cookingOrders.indexOf(order, 0);
             if (index > -1) {
                 _this.cookingOrders.splice(index, 1);
             }
+            //using drone_api
             drone
                 .deliver()
                 .then(function () {
                 console.log('Доставлено');
                 order.condition = "Доставлено";
-                _this.menuService.changeOrderCondition(order).subscribe(function (response) { });
+                _this.menuService.changeOrderCondition(order).subscribe(function (response) {
+                    _this.socketService.sendMassage("refreshed", order);
+                });
             })
                 .catch(function () {
                 console.log('Возникли сложности');
                 order.condition = "Возникли сложности";
-                _this.menuService.changeOrderCondition(order).subscribe(function (response) { });
+                _this.menuService.changeOrderCondition(order).subscribe(function (response) {
+                    _this.socketService.sendMassage("refreshed", order);
+                });
             });
         }, function (err) { console.log(err); });
     };
@@ -1000,10 +1101,10 @@ var MyOrdersComponent = /** @class */ (function () {
         Object(_angular_core__WEBPACK_IMPORTED_MODULE_0__["Component"])({
             selector: 'app-my-orders',
             template: __webpack_require__(/*! ./my-orders.component.html */ "./src/app/kitchen/kitchen-component/my-orders/my-orders.component.html"),
-            providers: [_MenuService_MenuService__WEBPACK_IMPORTED_MODULE_1__["MenuService"]],
+            providers: [_MenuService_MenuService__WEBPACK_IMPORTED_MODULE_1__["MenuService"], _SocketService_SocketService__WEBPACK_IMPORTED_MODULE_2__["SocketService"]],
             styles: [__webpack_require__(/*! ./my-orders.component.css */ "./src/app/kitchen/kitchen-component/my-orders/my-orders.component.css")]
         }),
-        __metadata("design:paramtypes", [_MenuService_MenuService__WEBPACK_IMPORTED_MODULE_1__["MenuService"]])
+        __metadata("design:paramtypes", [_MenuService_MenuService__WEBPACK_IMPORTED_MODULE_1__["MenuService"], _SocketService_SocketService__WEBPACK_IMPORTED_MODULE_2__["SocketService"]])
     ], MyOrdersComponent);
     return MyOrdersComponent;
 }());
@@ -1119,6 +1220,17 @@ Object(_angular_platform_browser_dynamic__WEBPACK_IMPORTED_MODULE_1__["platformB
 
 module.exports = __webpack_require__(/*! D:\Нетология - курс\netology_course\diplom\dip\src\main.ts */"./src/main.ts");
 
+
+/***/ }),
+
+/***/ 1:
+/*!********************!*\
+  !*** ws (ignored) ***!
+  \********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+/* (ignored) */
 
 /***/ })
 

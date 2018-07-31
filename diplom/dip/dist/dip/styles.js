@@ -573,7 +573,7 @@ if(false) {}
 
 /***/ }),
 
-/***/ 2:
+/***/ 3:
 /*!**************************************************************************************!*\
   !*** multi ./src/styles.css ./node_modules/materialize-css/dist/css/materialize.css ***!
   \**************************************************************************************/
@@ -586,5 +586,5 @@ module.exports = __webpack_require__(/*! D:\Нетология - курс\netolo
 
 /***/ })
 
-},[[2,"runtime"]]]);
+},[[3,"runtime"]]]);
 //# sourceMappingURL=styles.js.map
